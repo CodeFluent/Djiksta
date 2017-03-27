@@ -17,11 +17,16 @@ SUBMISSION INSTRUCTIONS:
 
 1) submit here on D2L dropbox folder, on due date;
 2) if problems with D2L: submit the link by email cc-ing all instructors (see instructions: here) to the zip-file with the source code in C/C++/JAVA (JDK)/Python/any other PROGRAMMING language and executable on PC (or e-mail zip).
+
 Your program should read data from file (see samples below) and output a single number = sum of lengths of the shortest paths from node 0 to each node.
-INPUT FORMAT: The first line of each file below contains the number of vertices and the number of edges in the graph (in the format "n=XXXX m=XXXXX"). The rest of the file is organized as follows:
-each vertex i appears on a line by itself, followed by a line for each neighbor j>i of i (containing j and the length of edge (i,j)). Each list of neighbors is ended by an empty line. Vertices i which do not have neighbors with an index greater than i are not represented.
+INPUT FORMAT: The first line of each file below contains the number of vertices and the number of edges in the graph (in the format "n=XXXX m=XXXXX").
+
+The rest of the file is organized as follows:
+each vertex i appears on a line by itself, followed by a line for each neighbor j>i of i (containing j and the length of edge (i,j)). 
+Each list of neighbors is ended by an empty line. Vertices i which do not have neighbors with an index greater than i are not represented.
 NOTE: Vertices are indexed from 0 to n-1.
 NOTE: each edge is mentioned only once with its smaller number endpoint
+
 SAMPLE INPUT:
 1. [first input](https://grid.cs.gsu.edu/~cscazz/CS4520/25000.txt)
 2. [second input](https://grid.cs.gsu.edu/~cscazz/CS4520/1000.txt)
