@@ -1,8 +1,25 @@
+/**
+ * Wasfi Momen
+ * 3/28/17
+ *
+ *  Basic setup here: http://stackoverflow.com/questions/4615814/dijkstra-and-fileinput-java
+ *
+ *  I modified the functions to allow for comparison between in the priority queue and the relevant structures
+ *  within both Vertex and Edge.
+ *
+ *  I only got as so far as in creating the Edges to dump into the adjaceny list to run in computePaths.
+ *
+ *
+ */
+
 package company;
 
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.PriorityQueue;
 import java.util.List;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.io.BufferedReader;
@@ -10,14 +27,18 @@ import java.io.BufferedReader;
 class Vertex implements Comparable<Vertex>
 {
     public final int vertex_id;
-    public Edge[] adjacencies;
-    public double minDistance = Double.POSITIVE_INFINITY; // for priority queue set all verticies to infinity except source.
+    public List<Edge> adjacencies;
+    public Integer minDistance = 100000; // for priority queue set all verticies to infinity except source.
     public Vertex previous;
     public Vertex(int newVertexID) { vertex_id = newVertexID; }
     public String toString() { return String.valueOf(vertex_id); }
     public int compareTo(Vertex other)
     {
-        return Double.compare(minDistance, other.minDistance);
+        return Integer.compare(minDistance, other.minDistance);
+    }
+
+    public void addEdge(Edge give) {
+        adjacencies.add(give);
     }
 
     @Override
@@ -35,23 +56,35 @@ class Vertex implements Comparable<Vertex>
     }
 
 
+
+
 }
 
 
 class Edge
 {
-
     public final Vertex target;
-    public final double weight;
-    public Edge(Vertex argTarget, double argWeight)
+    public final int weight;
+    public Edge(Vertex argTarget, int argWeight)
     { target = argTarget; weight = argWeight; }
+
+    public String toString () {
+
+        String array = "[" + target.toString() + "," + Integer.toString(weight) +"]";
+        return array;
+    }
+
 }
+
+
+
+
 
 public class Dijkstra
 {
     public static void computePaths(Vertex source)
     {
-        source.minDistance = 0.;
+        source.minDistance = 0;
         PriorityQueue<Vertex> vertexQueue = new PriorityQueue();
         vertexQueue.add(source);
 
@@ -61,8 +94,8 @@ public class Dijkstra
             for (Edge e : u.adjacencies)
             {
                 Vertex v = e.target;
-                double weight = e.weight;
-                double distanceThroughU = u.minDistance + weight;
+                int weight = e.weight;
+                int distanceThroughU = u.minDistance + weight;
                 if (distanceThroughU < v.minDistance) {
                     vertexQueue.remove(v);
 
@@ -84,85 +117,78 @@ public class Dijkstra
         return path;
     }
 
+    public static void makeEdge (){
+        BufferedReader input;
+        Scanner outputLineScan;
+        String scanoutputLine;
+        int numberOfInputs;
+        int counter;
+        int i;
+
+        try {
+            input = new BufferedReader(new FileReader("output.txt"));
+            input.readLine();
+
+            while( (scanoutputLine = input.readLine()) != null){
+
+
+                counter = 0;
+                i=0;
+                outputLineScan = new Scanner(scanoutputLine);
+
+                int edges [] = new int[2];
+                int edgesIndicies = 0;
+
+                while(outputLineScan.hasNext()) {
+                    edges[counter] = outputLineScan.nextInt();
+                    counter++;
+                    edgesIndicies++;
+                }
+
+                List<Edge> allEdges = new ArrayList<Edge>();
+                int toBeVer = edges[edgesIndicies-1];
+
+                allEdges.add(new Edge(new Vertex(toBeVer), edges[0]));
+                System.out.println(allEdges.toString());
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public static void main(String[] args)
     {
-        // mark all the vertices 
-        Vertex A = new Vertex(0);
-        Vertex B = new Vertex(1);
-        Vertex D = new Vertex(2);
-        Vertex F = new Vertex(3);
-        Vertex K = new Vertex(4);
-        Vertex J = new Vertex(5);
-        Vertex M = new Vertex(6);
-        Vertex O = new Vertex(7);
-        Vertex P = new Vertex(8);
-        Vertex R = new Vertex(9);
-        Vertex Z = new Vertex(10);
 
-        // set the edges and weight
-        A.adjacencies = new Edge[]{ new Edge(M, 8) };
-        B.adjacencies = new Edge[]{ new Edge(D, 11) };
-        D.adjacencies = new Edge[]{ new Edge(B, 11) };
-        F.adjacencies = new Edge[]{ new Edge(K, 23) };
-        K.adjacencies = new Edge[]{ new Edge(O, 2) };
-        J.adjacencies = new Edge[]{ new Edge(K, 25) };
-        M.adjacencies = new Edge[]{ new Edge(R, 100) };
-        O.adjacencies = new Edge[]{ new Edge(K, 40) };
-        P.adjacencies = new Edge[]{ new Edge(Z, 18) };
-        R.adjacencies = new Edge[]{ new Edge(P, 15) };
-        Z.adjacencies = new Edge[]{ new Edge(P, 18) };
-
-        BufferedReader in = null;
+        Scanner input = new Scanner (System.in);
         List<Vertex> vertices = new ArrayList<Vertex>();
 
         try {
-            in = new BufferedReader(new FileReader("C:\\Users\\Wasfi\\IdeaProjects\\gradeSmartt\\Djiksta\\src\\main\\company\\input_2.txt"));
-            in.readLine();
+
+            // ***CHANGE FILE HERE ***
+            BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\Wasfi\\IdeaProjects\\gradeSmartt\\Djiksta\\src\\main\\company\\input_2.txt"));
+            PrintWriter output = new PrintWriter(new FileWriter("output.txt"));
             String inputLine;
-            boolean emptyLine = false; // boolean to track when a new line exists for a new vertex.
+
 
             while((inputLine = in.readLine()) != null) {
-
-                Vertex assignAdjacenceies;
-
-                // checks for new vertex and creates it.
-                if(inputLine.matches("^[\\d]+$")) {
-                    // System.out.println(inputLine); // Uncomment to see all vertices.
-
-                    // create a new vertex
-                    // for loop until newline while adding adjacenies.
-                    // end loop at newline
-                    int vertex_id_create = Integer.parseInt(inputLine);
-
-                    Vertex compare = new Vertex(vertex_id_create);
-                    vertices.add(new Vertex(vertex_id_create));
-                    int toAssignAdjacencies = vertices.indexOf(compare);
-
-                    // Prep to assign the edges to the last vertex of the list.
-                    assignAdjacenceies = vertices.get(toAssignAdjacencies);
-                } else {
-
-                        if(inputLine.isEmpty()) {
-
-                        } else {
-                            System.out.println(inputLine);
-//                            String [] adjacent = inputLine.trim().split("\\s+");
-//                            int a [] = new int [adjacent.length];
-//                            for(int i = 0; i < adjacent.length; i++) {
-//                                a[i] = Integer.parseInt(adjacent[i]);
-                        }
-
-                    }
+                inputLine = inputLine.trim();
+                if (!inputLine.isEmpty()) {
+                    output.println(inputLine);
+                }
+            }
 
 
 
-
-          }
 
         } catch (Exception e) {
             e.printStackTrace();
             return;
         }
+
+        makeEdge();
 
 //         System.out.println(vertices);
 
