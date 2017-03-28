@@ -11,7 +11,7 @@ class Vertex implements Comparable<Vertex>
 {
     public final int vertex_id;
     public Edge[] adjacencies;
-    public double minDistance = Double.POSITIVE_INFINITY;
+    public double minDistance = Double.POSITIVE_INFINITY; // for priority queue set all verticies to infinity except source.
     public Vertex previous;
     public Vertex(int newVertexID) { vertex_id = newVertexID; }
     public String toString() { return String.valueOf(vertex_id); }
@@ -19,6 +19,21 @@ class Vertex implements Comparable<Vertex>
     {
         return Double.compare(minDistance, other.minDistance);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vertex other = (Vertex) obj;
+        if (vertex_id != other.vertex_id)
+            return false;
+        return true;
+    }
+
 
 }
 
@@ -43,7 +58,6 @@ public class Dijkstra
         while (!vertexQueue.isEmpty()) {
             Vertex u = vertexQueue.poll();
 
-            // Visit each edge exiting u
             for (Edge e : u.adjacencies)
             {
                 Vertex v = e.target;
@@ -109,6 +123,8 @@ public class Dijkstra
 
             while((inputLine = in.readLine()) != null) {
 
+                Vertex assignAdjacenceies;
+
                 // checks for new vertex and creates it.
                 if(inputLine.matches("^[\\d]+$")) {
                     // System.out.println(inputLine); // Uncomment to see all vertices.
@@ -117,19 +133,38 @@ public class Dijkstra
                     // for loop until newline while adding adjacenies.
                     // end loop at newline
                     int vertex_id_create = Integer.parseInt(inputLine);
-                    vertices.add(new Vertex(vertex_id_create));
-                    int toAssign = vertices.indexOf();
-                    System.out.println(vertices.get(toAssign));
-                }
 
-            }
+                    Vertex compare = new Vertex(vertex_id_create);
+                    vertices.add(new Vertex(vertex_id_create));
+                    int toAssignAdjacencies = vertices.indexOf(compare);
+
+                    // Prep to assign the edges to the last vertex of the list.
+                    assignAdjacenceies = vertices.get(toAssignAdjacencies);
+                } else {
+
+                        if(inputLine.isEmpty()) {
+
+                        } else {
+                            System.out.println(inputLine);
+//                            String [] adjacent = inputLine.trim().split("\\s+");
+//                            int a [] = new int [adjacent.length];
+//                            for(int i = 0; i < adjacent.length; i++) {
+//                                a[i] = Integer.parseInt(adjacent[i]);
+                        }
+
+                    }
+
+
+
+
+          }
 
         } catch (Exception e) {
             e.printStackTrace();
             return;
         }
 
-         System.out.println(vertices);
+//         System.out.println(vertices);
 
 //        computePaths(A); // run Dijkstra
 //        System.out.println("Distance to " + Z + ": " + Z.minDistance);
