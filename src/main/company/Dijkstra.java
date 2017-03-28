@@ -9,6 +9,9 @@
  *
  *  I only got as so far as in creating the Edges to dump into the adjaceny list to run in computePaths.
  *
+ *  IDE: IntelliJ.
+ *  %completion = 40%
+ *
  *
  */
 
