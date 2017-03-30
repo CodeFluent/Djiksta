@@ -137,22 +137,20 @@ public class Dijkstra
                 String [] scanning = new String [2];
 
                     while(outputLineScan.hasNextLine()) {
-
                         int vertexID = Integer.parseInt(outputLineScan.next());
-//                        System.out.println(vertexID);
                         Vertex curVertex = new Vertex(vertexID);
-//                            System.out.println("curv" +curVertex);
+                        boolean isinput = true;
+
+
                         if (outputLineScan.hasNext()) {
                             String token = outputLineScan.next();
-//                            System.out.println("token: " + token);
-                            if (!token.isEmpty()) {
-//                                System.out.println("v" + vertexID);
-
+                            if (!token.isEmpty() && isinput) {
                                 int weight = Integer.parseInt(token);
+                                System.out.println("w:" +vertexID);
                                 Edge curEdge = new Edge(curVertex, weight);
                                 allEdges.add(curEdge);
-                            } else {
-//                                System.out.println(vertexID);
+                            } else if (!isinput){
+                                System.out.println("other" + vertexID);
                                 if (!allEdges.isEmpty()) {
                                     int len = allVertices.size();
                                     Vertex lastV = allVertices.get(len);
@@ -163,6 +161,8 @@ public class Dijkstra
 //                                System.out.println("test" );
                             }
 
+                        } else {
+                            isinput = false;
                         }
 
                         if (outputLineScan.hasNextLine()) {
