@@ -139,33 +139,41 @@ public class Dijkstra
                     while(outputLineScan.hasNextLine()) {
 
                         int vertexID = Integer.parseInt(outputLineScan.next());
+//                        System.out.println(vertexID);
                         Vertex curVertex = new Vertex(vertexID);
-
+//                            System.out.println("curv" +curVertex);
                         if (outputLineScan.hasNext()) {
                             String token = outputLineScan.next();
+//                            System.out.println("token: " + token);
                             if (!token.isEmpty()) {
+//                                System.out.println("v" + vertexID);
+
                                 int weight = Integer.parseInt(token);
                                 Edge curEdge = new Edge(curVertex, weight);
                                 allEdges.add(curEdge);
-                                System.out.println("test: " + vertexID + " " + weight);
                             } else {
-                                // scanning[0] goes to int.
+//                                System.out.println(vertexID);
                                 if (!allEdges.isEmpty()) {
+                                    int len = allVertices.size();
+                                    Vertex lastV = allVertices.get(len);
+                                    lastV.adjacencies = allEdges;
                                     allEdges = new ArrayList<Edge>();
-
-                                } else {
-
                                 }
                                 allVertices.add(curVertex);
+//                                System.out.println("test" );
                             }
 
+                        }
+
+                        if (outputLineScan.hasNextLine()) {
+                            outputLineScan.nextLine();
                         }
                     }
 //                            edges[counter] = outputLineScan.nextInt();
 //                            counter++;
 //                            edgesIndicies++;
                     }
-
+//                    computePaths(allVertices.get(0));
 //                int toBeVer = edges[0];
 
 //                allEdges.add(new Edge(new Vertex(toBeVer), edges[1]));
