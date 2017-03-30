@@ -141,29 +141,35 @@ public class Dijkstra
 
                 int edges [] = new int[2];
                 int edgesIndicies = 0;
+                String [] scanning = new String [2];
 
-                while(outputLineScan.hasNext()) {
+                    while(outputLineScan.hasNextLine()) {
 
-                    if(!(scanoutputLine.matches("[\\d]+[\\d]"))) {
-                        System.out.println("match one");
-                        outputLineScan.nextLine();
-                    } else {
-                        System.out.println("match two");
-                        edges[counter] = outputLineScan.nextInt();
-                        counter++;
-                        edgesIndicies++;
-                        outputLineScan.nextLine();
+
+                        if (outputLineScan.hasNext()) {
+                            scanning[0] = outputLineScan.next();
+
+                            if (outputLineScan.next().isEmpty()) {
+                                System.out.println("Hit a vertex");
+                                outputLineScan.nextLine();
+                            } else {
+                                scanning[1] = outputLineScan.next();
+                                System.out.println(scanning[0] + " " + scanning[1] );
+                                outputLineScan.nextLine();
+                            }
+                        }
+                    }
+//                            edges[counter] = outputLineScan.nextInt();
+//                            counter++;
+//                            edgesIndicies++;
                     }
 
-                }
-
                 List<Edge> allEdges = new ArrayList<Edge>();
-                int toBeVer = edges[0];
+//                int toBeVer = edges[0];
 
-                allEdges.add(new Edge(new Vertex(toBeVer), edges[1]));
-                System.out.println(allEdges.toString());
+//                allEdges.add(new Edge(new Vertex(toBeVer), edges[1]));
+//                System.out.println(allEdges.toString());
 
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
