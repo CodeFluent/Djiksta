@@ -2,16 +2,6 @@
  * Wasfi Momen
  * 3/28/17
  *
- *  Basic setup here: http://stackoverflow.com/questions/4615814/dijkstra-and-fileinput-java
- *
- *  I modified the functions to allow for comparison between in the priority queue and the relevant structures
- *  within both Vertex and Edge.
- *
- *  I only got as so far as in creating the Edges to dump into the adjaceny list to run in computePaths.
- *
- *  IDE: IntelliJ.
- *  %completion = 40%
- *
  *
  */
 
@@ -128,12 +118,15 @@ public class Dijkstra
         int counter;
         int i;
 
+        List<Edge> allEdges = new ArrayList<Edge>();
+        List<Vertex> allVertices = new ArrayList<Vertex>();
+
+
         try {
             input = new BufferedReader(new FileReader("output.txt"));
             input.readLine();
 
             while( (scanoutputLine = input.readLine()) != null){
-
 
                 counter = 0;
                 i=0;
@@ -145,18 +138,27 @@ public class Dijkstra
 
                     while(outputLineScan.hasNextLine()) {
 
+                        int vertexID = Integer.parseInt(outputLineScan.next());
+                        Vertex curVertex = new Vertex(vertexID);
 
                         if (outputLineScan.hasNext()) {
-                            scanning[0] = outputLineScan.next();
-
-                            if (outputLineScan.next().isEmpty()) {
-                                System.out.println("Hit a vertex");
-                                outputLineScan.nextLine();
+                            String token = outputLineScan.next();
+                            if (!token.isEmpty()) {
+                                int weight = Integer.parseInt(token);
+                                Edge curEdge = new Edge(curVertex, weight);
+                                allEdges.add(curEdge);
+                                System.out.println("test: " + vertexID + " " + weight);
                             } else {
-                                scanning[1] = outputLineScan.next();
-                                System.out.println(scanning[0] + " " + scanning[1] );
-                                outputLineScan.nextLine();
+                                // scanning[0] goes to int.
+                                if (!allEdges.isEmpty()) {
+                                    allEdges = new ArrayList<Edge>();
+
+                                } else {
+
+                                }
+                                allVertices.add(curVertex);
                             }
+
                         }
                     }
 //                            edges[counter] = outputLineScan.nextInt();
@@ -164,7 +166,6 @@ public class Dijkstra
 //                            edgesIndicies++;
                     }
 
-                List<Edge> allEdges = new ArrayList<Edge>();
 //                int toBeVer = edges[0];
 
 //                allEdges.add(new Edge(new Vertex(toBeVer), edges[1]));
