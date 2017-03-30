@@ -143,15 +143,24 @@ public class Dijkstra
                 int edgesIndicies = 0;
 
                 while(outputLineScan.hasNext()) {
-                    edges[counter] = outputLineScan.nextInt();
-                    counter++;
-                    edgesIndicies++;
+
+                    if(!(scanoutputLine.matches("[\\d]+[\\d]"))) {
+                        System.out.println("match one");
+                        outputLineScan.nextLine();
+                    } else {
+                        System.out.println("match two");
+                        edges[counter] = outputLineScan.nextInt();
+                        counter++;
+                        edgesIndicies++;
+                        outputLineScan.nextLine();
+                    }
+
                 }
 
                 List<Edge> allEdges = new ArrayList<Edge>();
-                int toBeVer = edges[edgesIndicies-1];
+                int toBeVer = edges[0];
 
-                allEdges.add(new Edge(new Vertex(toBeVer), edges[0]));
+                allEdges.add(new Edge(new Vertex(toBeVer), edges[1]));
                 System.out.println(allEdges.toString());
 
             }
